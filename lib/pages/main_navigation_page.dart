@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'profile_page.dart';
-import 'city_selection_page.dart';
+import 'audio_guides_page.dart';
 import 'cart_page.dart';
 
 class MainNavigationPage extends StatefulWidget {
@@ -12,7 +12,6 @@ class MainNavigationPage extends StatefulWidget {
 }
 
 class _MainNavigationPageState extends State<MainNavigationPage> {
-
   int currentIndex = 1;
 
   final pages = const [
@@ -24,13 +23,15 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: pages[currentIndex],
 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        selectedItemColor: Colors.deepPurple,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color(0xFF7E57C2),
         unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
+        elevation: 12,
 
         onTap: (index) {
           setState(() {
@@ -42,17 +43,20 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
 
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
-            label: "Профиль",
+            activeIcon: Icon(Icons.person),
+            label: "Profile",
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.hiking),
-            label: "Экскурсии",
+            icon: Icon(Icons.headphones_outlined),
+            activeIcon: Icon(Icons.headphones),
+            label: "Guides",
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
-            label: "Корзина",
+            icon: Icon(Icons.favorite_border),
+            activeIcon: Icon(Icons.favorite),
+            label: "Saved",
           ),
 
         ],

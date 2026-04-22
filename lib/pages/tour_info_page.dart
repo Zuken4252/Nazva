@@ -1,126 +1,192 @@
 import 'package:flutter/material.dart';
-import 'tour_map_page.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
 
-class TourInfoPage extends StatelessWidget {
-  const TourInfoPage({super.key});
+class TourInfoPage extends StatefulWidget {
+  final String personName;
+  final String imagePath;
+
+  const TourInfoPage({
+    super.key,
+    required this.personName,
+    required this.imagePath,
+  });
+
+  @override
+  State<TourInfoPage> createState() => _TourInfoPageState();
+}
+
+class _TourInfoPageState extends State<TourInfoPage> {
+  final AudioPlayer player = AudioPlayer();
+
+  bool isPlaying = false;
+  String biography = "Loading...";
+
+  String get fileNumber {
+    switch (widget.personName) {
+      case "Boris Tamm":
+        return "02";
+      case "Paul Kogerman":
+        return "03";
+      case "Ludvig Puusepp":
+        return "04";
+      case "Johannes Kais":
+        return "05";
+      case "Walter Zapp":
+        return "06";
+      case "Ustus Agur":
+        return "07";
+      case "Ragnar Nurkse":
+        return "08";
+      case "Alexandre Liwentaal":
+        return "09";
+      case "Alma Tomingas":
+        return "10";
+      case "Ernst Opik":
+        return "11";
+      case "Georg Lurich":
+        return "12";
+      case "Hilda Taba":
+        return "13";
+      case "Karl Papello":
+        return "14";
+      case "Karl Ernst von Baer":
+        return "15";
+      case "Artur Lind":
+        return "16";
+      case "Bernhard Schmidt":
+        return "17";
+      case "Viktor Palm":
+        return "18";
+      default:
+        return "01";
+    }
+  }
+
+ String get audioFile {
+  if (widget.personName == "Alexandre Liwentaal") {
+    return "09_Alexandre_Liwentaal.mp3";
+  }
+
+  return "${fileNumber}_${widget.personName.replaceAll(" ", "_")}.mp3";
+}
+
+String get textFile {
+  if (widget.personName == "Alexandre Liwentaal") {
+    return "09_Alexandre_Liwentaal.txt";
+  }
+
+  return "${fileNumber}_${widget.personName.replaceAll(" ", "_")}.txt";
+}
+
+  @override
+  void initState() {
+    super.initState();
+    loadText();
+  }
+
+  Future<void> loadText() async {
+    try {
+      final text = await rootBundle.loadString("assets/texts/$textFile");
+
+      setState(() {
+        biography = text;
+      });
+    } catch (e) {
+      setState(() {
+        biography = "Text not found.";
+      });
+    }
+  }
+
+  Future<void> playAudio() async {
+    await player.play(AssetSource("audio/$audioFile"));
+
+    setState(() {
+      isPlaying = true;
+    });
+  }
+
+  Future<void> pauseAudio() async {
+    await player.pause();
+
+    setState(() {
+      isPlaying = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F1FA),
+
       appBar: AppBar(
-        title: const Text("Кадриорг и Пирита"),
+        title: Text(widget.personName),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            /// Карта маршрута
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(20),
               child: Image.asset(
-                "assets/images/tour_map.jpg",
-                height: 170,
+                widget.imagePath,
+                height: 280,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-            /// Минуты + километры + кнопка
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Минут"),
-                    SizedBox(height: 4),
-                    Text(
-                      "120",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Километр"),
-                    SizedBox(height: 4),
-                    Text(
-                      "3.5",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade200,
-                    foregroundColor: Colors.deepPurple,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TourMapPage(),
-                      ),
-                    );
-                  },
-                  child: const Text("Начать"),
-                )
-
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            /// Описание
-            const Text(
-              "Описание",
-              style: TextStyle(
-                fontSize: 18,
+            Text(
+              widget.personName,
+              style: const TextStyle(
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
-            const Text(
-              "Отправьтесь в путешествие по узким мощёным улочкам "
-                  "средневекового Таллинского города. Мы поднимемся на "
-                  "Вышгород, узнаем, почему Таллин назывался храмом, и "
-                  "увидим красные черепичные крыши и солёный бриз Балтики.",
-            ),
-
-            const SizedBox(height: 24),
-
-            /// Маршрут
-            const Text(
-              "Маршрут",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            IconButton(
+              onPressed: () {
+                if (isPlaying) {
+                  pauseAudio();
+                } else {
+                  playAudio();
+                }
+              },
+              icon: Icon(
+                isPlaying
+                    ? Icons.pause_circle_filled
+                    : Icons.play_circle_fill,
+                size: 90,
+                color: const Color(0xFF7E57C2),
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
 
-            const Text(
-              "1. Ратушная площадь — сердце города и место встреч.\n"
-                  "2. Ратушная аптека — действующая аптека по рецепту 1422 года.\n"
-                  "3. Сад Датского короля — место, где по легенде спустился флаг Дании.\n"
-                  "4. Собор Александра Невского — величественный купольный храм на холме.\n"
-                  "5. Смотровая Кохтуотса — тот самый вид с надписью «The Times we had».\n"
-                  "6. Улица Короткая нога — спуск обратно в Нижний город.",
+            Text(
+              biography,
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.5,
+              ),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
 
           ],
         ),
