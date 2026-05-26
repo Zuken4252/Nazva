@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'tour_info_page.dart';
+import '../tours/ulemiste_city_tour.dart';
 
 class TallinnToursPage extends StatelessWidget {
   const TallinnToursPage({super.key});
@@ -72,9 +72,9 @@ class TallinnToursPage extends StatelessWidget {
                 );
               },
               child: tourCard(
-                  "Кадриорг и Пирита",
-                  "7 туров",
-                  "assets/images/kadriorg.jpg"),
+                  "Юлемисте Сити",
+                  "40 минут, 2,3 км",
+                  "assets/images/Ulemiste_City.jpg"),
             ),
 
             emptyCard(),

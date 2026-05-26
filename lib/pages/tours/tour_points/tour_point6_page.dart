@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-class TourPoint2Page extends StatefulWidget {
-  const TourPoint2Page({super.key});
+import 'tour_point7_page.dart';
+import 'tour_map_page.dart';
+
+class TourPoint6Page extends StatefulWidget {
+  const TourPoint6Page({super.key});
 
   @override
-  State<TourPoint2Page> createState() => _TourPoint2PageState();
+  State<TourPoint6Page> createState() => _TourPoint6PageState();
 }
 
-class _TourPoint2PageState extends State<TourPoint2Page> {
+class _TourPoint6PageState extends State<TourPoint6Page> {
 
   final AudioPlayer player = AudioPlayer();
 
@@ -21,8 +24,8 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
   int photoIndex = 0;
 
   final photos = [
-    "assets/images/monument1.jpg",
-    "assets/images/monument2.jpg"
+    "assets/images/IMG_20260526_121508.jpg",
+    "assets/images/Walter_Zapp.jpg"
   ];
 
   @override
@@ -50,7 +53,7 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
   }
 
   Future playAudio() async {
-    await player.play(AssetSource('audio/rusalka.mp3'));
+    await player.play(AssetSource('audio/Walter_Zapp.mp3'));
     setState(() {
       isPlaying = true;
     });
@@ -149,7 +152,7 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
     /// основная страница
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Точка 2: Русалка"),
+        title: const Text("Вальтер Запп - Точка 6"),
       ),
 
       body: SingleChildScrollView(
@@ -161,14 +164,14 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                "assets/images/monument_main.jpg",
+                "assets/images/IMG_20260526_121508.jpg",
               ),
             ),
 
             const SizedBox(height: 20),
 
             const Text(
-              "Аудиогид: Памятник Русалке",
+              "Вальтер Запп",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -178,16 +181,21 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
             const SizedBox(height: 10),
 
             const Text(
-              "Вы подошли к одной из самых заметных точек этого маршрута — "
-                  "памятнику, который уже много лет привлекает внимание прохожих. "
-                  "Даже если вы впервые оказались здесь, скорее всего вы уже "
-                  "почувствовали, как меняется атмосфера пространства вокруг.\n\n"
-                  "Люди замедляют шаг, кто-то делает фотографии, а кто-то просто "
-                  "останавливается на несколько секунд, чтобы рассмотреть детали.\n\n"
-                  "Перед вами не просто скульптура, а своеобразная точка памяти "
-                  "города. Подобные памятники часто устанавливаются в местах, "
-                  "где пересекаются разные истории: личные, городские и иногда "
-                  "даже целых эпох.",
+              "Давайте познакомимся с ещё одним человеком, чьё изобретение стало известным во всём мире.\n\n"
+
+              "Вальтер Запп, родившийся в 1905 году и ушедший из жизни в 2003 году, был "
+              "балтийско-немецким изобретателем и инженером-конструктором. В 1935 году ему "
+              "удалось создать миниатюрную камеру Minox — по его словам, идея этого устройства пришла к нему во сне. "
+              "Помимо новаторской конструкции, он разработал и уникальный способ её производства, который позволял изготавливать "
+              "камеру даже в домашних условиях.\n\n"
+
+              "Изобретение Заппа получило мировую известность, в том числе благодаря популярной культуре: камера Minox "
+              "появилась в 1969 году в фильме о Джеймсе Бонде «На секретной службе Её Величества». "
+              "Более того, одна из её золотых версий была преподнесена в подарок королеве Великобритании Елизавете Второй.\n\n"
+
+              "Сегодня две камеры Minox можно увидеть в Музее фотографии Таллиннского городского музея.\n\n"
+
+              "Продолжим экскурсию и узнаем, кто ещё оставил свой след в истории.",
               style: TextStyle(fontSize: 16),
             ),
 
@@ -264,7 +272,14 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
                 const SizedBox(width: 12),
 
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TourPoint7Page(),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.skip_next),
                   label: const Text("Далее"),
                 ),
@@ -279,19 +294,31 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
 
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Column(
-                    children: [
-                      Icon(Icons.map),
-                      SizedBox(height: 4),
-                      Text("Карта")
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TourMapPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Column(
+                      children: [
+                        Icon(Icons.map),
+                        SizedBox(height: 4),
+                        Text("Карта"),
+                      ],
+                    ),
                   ),
                 ),
 

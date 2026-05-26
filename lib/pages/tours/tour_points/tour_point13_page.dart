@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-class TourPointPage extends StatefulWidget {
-  const TourPointPage({super.key});
+import 'tour_point14_page.dart';
+import 'tour_map_page.dart';
+
+class TourPoint13Page extends StatefulWidget {
+  const TourPoint13Page({super.key});
 
   @override
-  State<TourPointPage> createState() => _TourPointPageState();
+  State<TourPoint13Page> createState() => _TourPoint13PageState();
 }
 
-class _TourPointPageState extends State<TourPointPage> {
+class _TourPoint13PageState extends State<TourPoint13Page> {
 
   final AudioPlayer player = AudioPlayer();
 
@@ -21,9 +24,8 @@ class _TourPointPageState extends State<TourPointPage> {
   int photoIndex = 0;
 
   final photos = [
-    "assets/images/long_hermann.jpg",
-    "assets/images/kadriorg_palace.jpg",
-    "assets/images/viru_gate.jpg"
+    "assets/images/IMG_20260526_122203.jpg",
+    "assets/images/Hilda_Taba.jpg"
   ];
 
   @override
@@ -51,7 +53,7 @@ class _TourPointPageState extends State<TourPointPage> {
   }
 
   Future playAudio() async {
-    await player.play(AssetSource('audio/viru_gate.mp3'));
+    await player.play(AssetSource('audio/Hilda_Taba.mp3'));
     setState(() {
       isPlaying = true;
     });
@@ -147,10 +149,10 @@ class _TourPointPageState extends State<TourPointPage> {
       );
     }
 
-    /// основная страница точки
+    /// основная страница
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Точка 1: Начало"),
+        title: const Text("Хильда Таба - Точка 13"),
       ),
 
       body: SingleChildScrollView(
@@ -162,18 +164,14 @@ class _TourPointPageState extends State<TourPointPage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                "assets/images/viru_gate.jpg",
+                "assets/images/IMG_20260526_122203.jpg",
               ),
             ),
-
-            const SizedBox(height: 10),
-
-            const Center(child: Text("1/3")),
 
             const SizedBox(height: 20),
 
             const Text(
-              "Добро пожаловать на новую экскурсию!",
+              "Хильда Таба",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -183,17 +181,25 @@ class _TourPointPageState extends State<TourPointPage> {
             const SizedBox(height: 10),
 
             const Text(
-              "Вы находитесь в месте, откуда начинается наше путешествие. "
-                  "Здесь удобно сделать небольшую паузу, осмотреться вокруг и "
-                  "подготовиться к прогулке. В течение экскурсии мы будем "
-                  "постепенно перемещаться между точками маршрута, а наш "
-                  "аудиогид будет рассказывать вам об истории, людях и "
-                  "интересных деталях, которые обычно остаются незамеченными.",
+              "Давайте познакомимся с ещё одной выдающейся женщиной, чьи идеи оказали влияние на образование во всём мире. \n\n"
+
+              "Хильда Таба, родившаяся в 1902 и ушедшая из жизни в 1967 году, родилась, "
+              "выросла и получила образование в Эстонии. Однако мировое признание она получила как один из самых выдающихся теоретиков "
+              "образования в Соединённых Штатах XX века. \n\n"
+
+              "Сочетание смелости, готовности к риску, решительности и упорного труда помогло ей добиться международного успеха. Для Табы "
+              "обучение было не просто передачей знаний — она рассматривала его как инструмент развития мышления и самостоятельности учащихся. \n\n"
+
+              "Она инициировала, разрабатывала и возглавляла множество крупных образовательных и исследовательских проектов. Таба является "
+              "автором более 50 научных статей в области педагогики, а её идеи нашли отражение почти в 20 книгах. \n\n"
+
+              "Продолжим экскурсию и познакомимся со следующей историей.",
+              style: TextStyle(fontSize: 16),
             ),
 
             const SizedBox(height: 20),
 
-            /// progress slider
+            /// slider
             Slider(
               min: 0,
               max: duration.inSeconds.toDouble() > 0
@@ -247,7 +253,7 @@ class _TourPointPageState extends State<TourPointPage> {
 
             const SizedBox(height: 20),
 
-            /// кнопки стоп и далее
+            /// стоп и далее
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -264,7 +270,14 @@ class _TourPointPageState extends State<TourPointPage> {
                 const SizedBox(width: 12),
 
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TourPoint14Page(),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.skip_next),
                   label: const Text("Далее"),
                 ),
@@ -274,24 +287,36 @@ class _TourPointPageState extends State<TourPointPage> {
 
             const SizedBox(height: 30),
 
-            /// карта и материалы
+            /// карта / материалы
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
 
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Column(
-                    children: [
-                      Icon(Icons.map),
-                      SizedBox(height: 4),
-                      Text("Карта")
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TourMapPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Column(
+                      children: [
+                        Icon(Icons.map),
+                        SizedBox(height: 4),
+                        Text("Карта"),
+                      ],
+                    ),
                   ),
                 ),
 

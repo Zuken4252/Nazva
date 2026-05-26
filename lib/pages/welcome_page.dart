@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'city_selection_page.dart';
 import 'main_navigation_page.dart';
 
 class WelcomePage extends StatelessWidget {

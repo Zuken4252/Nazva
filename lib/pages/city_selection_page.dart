@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'tallinn_tours_page.dart';
-import 'profile_page.dart';
-import 'cart_page.dart';
+import 'towns/tallinn_tours_page.dart';
 
 class CitySelectionPage extends StatelessWidget {
   const CitySelectionPage({super.key});
@@ -72,15 +70,15 @@ class CitySelectionPage extends StatelessWidget {
               },
               child: cityCard(
                 "Таллинн",
-                "34 тура",
+                "1 тур",
                 "assets/images/tallinn.jpg",
               ),
             ),
 
-            cityCard("Тарту", "15 туров", "assets/images/tartu.jpg"),
-            cityCard("Пярну", "15 туров", "assets/images/parnu.jpg"),
-            cityCard("Нарва", "5 туров", "assets/images/narva.jpg"),
-            cityCard("Хаапсалу", "2 тура", "assets/images/haapsalu.jpg"),
+            cityCard("Тарту", "0 туров", "assets/images/tartu.jpg"),
+            cityCard("Пярну", "0 туров", "assets/images/parnu.jpg"),
+            cityCard("Нарва", "0 туров", "assets/images/narva.jpg"),
+            cityCard("Хаапсалу", "0 туров", "assets/images/haapsalu.jpg"),
 
           ],
         ),
