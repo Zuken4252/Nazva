@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'tour_info_page.dart';
+import 'tours/ulemiste_city_tour.dart';
 
 class CitySelectionPage extends StatelessWidget {
   const CitySelectionPage({super.key});
@@ -250,17 +250,17 @@ class PeopleListPage extends StatelessWidget {
           final person = people[index];
 
           return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => TourInfoPage(
-                    personName: person["name"]!,
-                    imagePath: person["image"]!,
-                  ),
-                ),
-              );
-            },
+              // onTap: () {
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (_) => TourInfoPage(
+              //         personName: person["name"]!,
+              //         imagePath: person["image"]!,
+              //       ),
+              //     ),
+              //   );
+              // },
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,

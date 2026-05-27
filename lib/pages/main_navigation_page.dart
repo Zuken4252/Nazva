@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'profile_page.dart';
-import 'audio_guides_page.dart';
+import 'city_selection_page.dart';
 import 'cart_page.dart';
 
 class MainNavigationPage extends StatefulWidget {
