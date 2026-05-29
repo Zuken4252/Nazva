@@ -7,6 +7,8 @@ class TourInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F1FA),
+
       appBar: AppBar(
         title: const Text("Юлемисте Сити"),
       ),
@@ -17,12 +19,12 @@ class TourInfoPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            /// Карта маршрута
+            // Карта маршрута
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(20),
               child: Image.asset(
                 "assets/images/map.jpg",
-                height: 170,
+                height: 220,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -30,114 +32,131 @@ class TourInfoPage extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            /// Минуты + километры + кнопка
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Минут"),
-                    SizedBox(height: 4),
-                    Text(
-                      "40",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Километр"),
-                    SizedBox(height: 4),
-                    Text(
-                      "2.3",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade200,
-                    foregroundColor: Colors.deepPurple,
+            // Кнопка начать тур
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFD6CCEF),
+                  foregroundColor: Colors.black87,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TourMapPage(),
-                      ),
-                    );
-                  },
-                  child: const Text("Начать"),
-                )
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TourMapPage(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  "Начать",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
 
+            const SizedBox(height: 12),
+
+            // Минуты и километры
+            Row(
+              children: [
+                _infoChip(context, Icons.access_time, "40 Мин"),
+                const SizedBox(width: 10),
+                _infoChip(context, Icons.directions_walk, "2.3 км"),
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
 
-            /// Описание
-            const Text(
-              "Описание",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            // Описание тура
+            Card(
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              child: const Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  "Узнайте истории тех, чьими именами названы самые здания в «Кремниевой долине Эстонии». "
+                      "Юлемисте Сити — это не просто офисные кварталы и стекло. "
+                      "Это «интеллектуальный пантеон» Эстонии под открытым небом.",
+                  style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
+                ),
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
 
-            const Text(
-              "Узнайте истории тех, чьими именами названы самые здания в «Кремниевой долине Эстонии»"
-                  "Юлемисте Сити - это не просто офисные кварталы и стекло."
-                  "Это «интеллектуальны  пантеон» Эстонии под открытым небом."
-                  "Знаете ли вы, почему здания здесь носят фамилии учёных,"
-                  "врачей и экономистов, а не просто порядковые номера?",
-            ),
-
-            const SizedBox(height: 24),
-
-            /// Маршрут
-            const Text(
-              "Маршрут",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            // Заголовок маршрута
+            Card(
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              child: ListTile(
+                leading: const Icon(Icons.location_on_outlined),
+                title: const Text("Маршрут"),
               ),
             ),
 
-            const SizedBox(height: 10),
+            // Список точек маршрута
+            _routeItem(context, "Вступление", "Технологический городок Юлемисте Сити"),
+            _routeItem(context, "Здание Бориса Тамма", "Первое «умное» офисное здание Юлемисте Сити"),
+            _routeItem(context, "Здание Пауля Когермана", "Развитие химии горючих сланцев"),
+            _routeItem(context, "Здание Людвига Пуусеппа", "Основатель нейрохирургии"),
+            _routeItem(context, "Здание Йоханнеса Кяйса", "Природосообразный подход в образовании"),
+            _routeItem(context, "Здание Вальтера Заппа", "Изобретатель миниатюрной камеры Minox"),
+            _routeItem(context, "Здание Устуса Агура", "Формирование эстонского информационного общества"),
+            _routeItem(context, "Здание Рагнара Нурксе", "Вклад в международную финансовую систему"),
+            _routeItem(context, "Здание Александра Ливенталя", "Изобретатель в сфере воздухоплавания"),
+            _routeItem(context, "Здание Альмы Томингас", "Первая женщина-профессор в Эстонии"),
+            _routeItem(context, "Здание Эрнста Эпика", "Исследователь космоса и структуры Вселенной"),
+            _routeItem(context, "Здание Георга Луриха", "Легендарный спортсмен Эстонии"),
+            _routeItem(context, "Здание Хильды Табы", "Международная теория образования"),
+            _routeItem(context, "Здание Карла Папелло", "Разработчик в области оптики и механики"),
+            _routeItem(context, "Здание Карла Эрнста фон Бэра", "Основатель эмбриологии"),
+            _routeItem(context, "Здание Артура Линда", "Молекулярная биология и биохимия"),
+            _routeItem(context, "Здание Бернхарда Шмидта", "Изобретатель оптики для телескопов"),
+            _routeItem(context, "Здание Виктора Пальма", "Химик и общественный деятель"),
+            _routeItem(context, "Финальная точка", "Здание в честь эколога Виктора Мазинга"),
 
-            const Text(
-              "1. Вступление — технологический городок Юлемисте Сити.\n"
-              "2. Здание Бориса Тамма — первое «умное» офисное здание Юлемисте Сити.\n"
-              "3. Здание Пауля Когермана — развитие химии горючих сланцев.\n"
-              "4. Здание Людвига Пуусеппа — основатель нейрохирургии.\n"
-              "5. Здание Йоханнеса Кяйса — идеи природосообразного и индивидуального подхода в образовании.\n"
-              "6. Здание Вальтера Заппа — изобретатель миниатюрной камеры Minox.\n"
-              "7. Здание Устуса Агура — формирование эстонского информационного общества.\n"
-              "8. Здание Рагнара Нурксе — экономисту, внёсший вклад в международную финансовую систему.\n"
-              "9. Здание Александра Ливенталя — изобретатель в сфере воздухоплавания.\n"
-              "10. Здание Альмы Томингас — первая женщина-профессор в Эстонии.\n"
-              "11. Здание Эрнста Эпика — исследователь космоса, звёзд и структуры Вселенной.\n"
-              "12. Здание Георга Луриха — легендарный спортсмен и символ физической силы Эстонии.\n"
-              "13. Здание Хильды Табы — развитие педагогики и международной теории образования.\n"
-              "14. Здание Карла Папелло — разработчик в области оптики и механики.\n"
-              "15. Здание Карла Эрнста фон Бэра — основатель эмбриологии.\n"
-              "16. Здание Артура Линда — развитие молекулярной биологии и биохимии.\n"
-              "17. Здание Бернхарда Шмидта — изобретатель оптики для телескопов.\n"
-              "18. Здание Виктора Пальма — химик и общественный деятель.\n"
-              "19. Финальная точка — будущего развития Юлемисте Сити, здание в честь эколога Виктора Мазинга.\n"
-            ),
-
-            const SizedBox(height: 40),
+            const SizedBox(height: 12),
 
           ],
         ),
+      ),
+    );
+  }
+
+  // Вспомогательный чип с иконкой
+  Widget _infoChip(BuildContext context, IconData icon, String label) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 18),
+            const SizedBox(width: 8),
+            Text(label),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Карточка точки маршрута
+  Widget _routeItem(BuildContext context, String title, String subtitle) {
+    return Card(
+      color: Theme.of(context).colorScheme.secondaryContainer,
+      child: ListTile(
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(subtitle),
       ),
     );
   }

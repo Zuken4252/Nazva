@@ -6,47 +6,99 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Корзина"),
-      ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: CustomScrollView(
+        slivers: [
 
-            const SizedBox(height: 20),
+          /// Растягивающийся AppBar
+          const SliverAppBar.large(
+            title: Text("Корзина"),
+          ),
 
-            const Text(
-              "Войдите в аккаунт, чтобы купить Smart-экскурсии",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
+          /// Основной контент
+          SliverFillRemaining(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-            const SizedBox(height: 40),
+                  /// Иконка и текст по центру
+                  const Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
 
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple.shade100,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 10,
+                        Center(
+                          child: Icon(
+                            Icons.inbox_outlined,
+                            size: 80,
+                            color: Colors.black26,
+                          ),
+                        ),
+
+                        SizedBox(height: 12),
+
+                        Center(
+                          child: Text(
+                            "Здесь будут отображаться ваши купленные экскурсии",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
                   ),
-                ),
-                onPressed: () {},
-                child: const Text(
-                  "Войти",
-                  style: TextStyle(color: Colors.black),
-                ),
+
+                  /// Кнопки Регистрация и Вход
+                  Row(
+                    children: [
+
+                      Expanded(
+                        child: FilledButton.icon(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                            foregroundColor: Colors.black87,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            minimumSize: const Size(0, 56),
+                          ),
+                          onPressed: () {},
+                          icon: const Icon(Icons.app_registration),
+                          label: const Text("Регистрация"),
+                        ),
+                      ),
+
+                      const SizedBox(width: 10),
+
+                      Expanded(
+                        child: FilledButton.icon(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                            foregroundColor: Colors.black87,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            minimumSize: const Size(0, 56),
+                          ),
+                          onPressed: () {},
+                          icon: const Icon(Icons.login),
+                          label: const Text("Вход"),
+                        ),
+                      ),
+
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                ],
               ),
             ),
+          ),
 
-          ],
-        ),
+        ],
       ),
     );
   }

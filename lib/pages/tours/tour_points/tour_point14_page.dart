@@ -19,13 +19,12 @@ class _TourPoint14PageState extends State<TourPoint14Page> {
   Duration position = Duration.zero;
 
   bool isPlaying = false;
-
   bool showMaterials = false;
   int photoIndex = 0;
 
   final photos = [
     "assets/images/IMG_20260526_122039.jpg",
-    "assets/images/Karl_Papello.jpg"
+    "assets/images/Karl_Papello.jpg",
   ];
 
   @override
@@ -99,256 +98,300 @@ class _TourPoint14PageState extends State<TourPoint14Page> {
   @override
   Widget build(BuildContext context) {
 
-    /// экран материалов
-    if (showMaterials) {
-      return Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          children: [
+    return Stack(
+      children: [
 
-            Center(
-              child: Image.asset(
-                photos[photoIndex],
-                fit: BoxFit.contain,
+        Scaffold(
+          backgroundColor: const Color(0xFFF5F1FA),
+
+          /// AppBar
+          appBar: AppBar(
+            title: const Text("Карл Папелло"),
+          ),
+
+          /// Фиксированный плеер внизу
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(28),
               ),
+              border: Border.all(width: 1),
             ),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
 
-            Positioned(
-              top: 50,
-              left: 20,
-              child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white),
-                onPressed: () {
-                  setState(() {
-                    showMaterials = false;
-                  });
-                },
-              ),
-            ),
-
-            Positioned(
-              bottom: 40,
-              left: 40,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: previousPhoto,
-              ),
-            ),
-
-            Positioned(
-              bottom: 40,
-              right: 40,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-                onPressed: nextPhoto,
-              ),
-            ),
-
-          ],
-        ),
-      );
-    }
-
-    /// основная страница
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Карл Папелло - Точка 14"),
-      ),
-
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                "assets/images/IMG_20260526_122039.jpg",
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              "Карл Папелло",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Text(
-              "А теперь обратим внимание на ещё одного изобретателя, чьи разработки получили международное признание. \n\n"
-
-              "Карл Папелло, родившийся в 1890 и ушедший из жизни в 1958 году, "
-              "был инженером-учёным и талантливым изобретателем. Он создал широкий спектр устройств в области точной механики, оптики, "
-              "а также военной и медицинской техники — всего на его имя зарегистрировано более 100 патентов. \n\n"
-
-              "Папелло занимался разработкой и совершенствованием механических аналоговых компьютеров, значительно опередив своё время. "
-              "Одним из его наиболее значимых достижений стала инновационная система наведения зенитной артиллерии, которая была принята "
-              "на вооружение многими ведущими странами мира. \n\n"
-
-              "Это изобретение по праву считается одним из самых выдающихся достижений инженерной мысли в истории Эстонии. \n\n"
-
-              "Продолжим экскурсию и узнаем о следующей личности, чьё имя связано с этим местом.",
-              style: TextStyle(fontSize: 16),
-            ),
-
-            const SizedBox(height: 20),
-
-            /// slider
-            Slider(
-              min: 0,
-              max: duration.inSeconds.toDouble() > 0
-                  ? duration.inSeconds.toDouble()
-                  : 1,
-              value: position.inSeconds.toDouble().clamp(
-                  0,
-                  duration.inSeconds.toDouble() > 0
+                /// Прогресс слайдер
+                Slider(
+                  min: 0,
+                  max: duration.inSeconds.toDouble() > 0
                       ? duration.inSeconds.toDouble()
-                      : 1),
-              onChanged: (value) {
-                seekAudio(value);
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-            /// кнопки плеера
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                IconButton(
-                  icon: const Icon(Icons.replay_10),
-                  onPressed: rewind10,
-                ),
-
-                IconButton(
-                  icon: Icon(
-                    isPlaying
-                        ? Icons.pause_circle
-                        : Icons.play_circle,
-                    size: 40,
-                  ),
-                  onPressed: () {
-                    if (isPlaying) {
-                      pauseAudio();
-                    } else {
-                      playAudio();
-                    }
+                      : 1,
+                  value: position.inSeconds.toDouble().clamp(
+                      0,
+                      duration.inSeconds.toDouble() > 0
+                          ? duration.inSeconds.toDouble()
+                          : 1),
+                  onChanged: (value) {
+                    seekAudio(value);
                   },
                 ),
 
-                IconButton(
-                  icon: const Icon(Icons.forward_10),
-                  onPressed: forward10,
-                ),
+                /// Кнопки плеера
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            /// стоп и далее
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                ElevatedButton.icon(
-                  onPressed: () {
-                    player.stop();
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.stop),
-                  label: const Text("Стоп"),
-                ),
-
-                const SizedBox(width: 12),
-
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TourPoint15Page(),
+                    IconButton.filled(
+                      style: IconButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                        foregroundColor: Colors.black87,
                       ),
-                    );
-                  },
-                  icon: const Icon(Icons.skip_next),
-                  label: const Text("Далее"),
+                      icon: const Icon(Icons.replay_10),
+                      onPressed: rewind10,
+                    ),
+
+                    const SizedBox(width: 16),
+
+                    IconButton.filled(
+                      style: IconButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                        foregroundColor: Colors.black87,
+                        iconSize: 32,
+                      ),
+                      icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                      onPressed: () {
+                        if (isPlaying) {
+                          pauseAudio();
+                        } else {
+                          playAudio();
+                        }
+                      },
+                    ),
+
+                    const SizedBox(width: 16),
+
+                    IconButton.filled(
+                      style: IconButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                        foregroundColor: Colors.black87,
+                      ),
+                      icon: const Icon(Icons.forward_10),
+                      onPressed: forward10,
+                    ),
+
+                  ],
+                ),
+
+                const SizedBox(height: 8),
+
+                /// Кнопки Назад и Далее
+                Row(
+                  children: [
+
+                    Expanded(
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                          foregroundColor: Colors.black87,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          minimumSize: const Size(0, 56),
+                        ),
+                        onPressed: () {
+                          player.stop();
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.fast_rewind),
+                        label: const Text("Назад"),
+                      ),
+                    ),
+
+                    const SizedBox(width: 12),
+
+                    Expanded(
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                          foregroundColor: Colors.black87,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          minimumSize: const Size(0, 56),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TourPoint15Page(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.fast_forward),
+                        label: const Text("Далее"),
+                      ),
+                    ),
+
+                  ],
                 ),
 
               ],
             ),
+          ),
 
-            const SizedBox(height: 30),
-
-            /// карта / материалы
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TourMapPage(),
+                /// Фото с кнопкой материалов
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Stack(
+                    children: [
+
+                      Image.asset(
+                        "assets/images/IMG_20260526_122039.jpg",
+                        width: double.infinity,
+                        height: 220,
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Column(
-                      children: [
-                        Icon(Icons.map),
-                        SizedBox(height: 4),
-                        Text("Карта"),
-                      ],
+
+                      const Positioned(
+                        bottom: 16,
+                        left: 16,
+                        child: Text(
+                          "Подборка фото",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        bottom: 12,
+                        right: 12,
+                        child: IconButton.filled(
+                          style: IconButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                            foregroundColor: Colors.black87,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showMaterials = true;
+                            });
+                          },
+                          icon: const Icon(Icons.add),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                /// Описание в карточке
+                Card(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  child: const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      "А теперь обратим внимание на ещё одного изобретателя, чьи разработки получили международное признание.\n\n"
+                          "Карл Папелло, родившийся в 1890 и ушедший из жизни в 1958 году, "
+                          "был инженером-учёным и талантливым изобретателем. На его имя зарегистрировано более 100 патентов.\n\n"
+                          "Одним из его наиболее значимых достижений стала инновационная система наведения зенитной артиллерии, которая была принята "
+                          "на вооружение многими ведущими странами мира.\n\n"
+                          "Продолжим экскурсию и узнаем о следующей личности.",
+                      style: TextStyle(fontSize: 16, height: 1.5),
                     ),
                   ),
                 ),
 
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showMaterials = true;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.purple.shade100,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Column(
-                      children: [
-                        Icon(Icons.photo),
-                        SizedBox(height: 4),
-                        Text("Материалы")
-                      ],
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 12),
 
               ],
-            )
-
-          ],
+            ),
+          ),
         ),
-      ),
+
+        /// Затемнение + просмотр фото поверх всего экрана
+        if (showMaterials) ...[
+
+          Container(
+            color: Colors.black.withOpacity(0.5),
+          ),
+
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Stack(
+                  children: [
+
+                    Image.asset(
+                      photos[photoIndex],
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+
+                    /// Кнопка закрыть
+                    Positioned(
+                      top: 12,
+                      left: 12,
+                      child: IconButton.filled(
+                        style: IconButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                          foregroundColor: Colors.black87,
+                        ),
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            showMaterials = false;
+                          });
+                        },
+                      ),
+                    ),
+
+                    /// Кнопка назад
+                    Positioned(
+                      bottom: 12,
+                      left: 12,
+                      child: IconButton.filled(
+                        style: IconButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                          foregroundColor: Colors.black87,
+                        ),
+                        icon: const Icon(Icons.arrow_back_ios),
+                        onPressed: previousPhoto,
+                      ),
+                    ),
+
+                    /// Кнопка вперёд
+                    Positioned(
+                      bottom: 12,
+                      right: 12,
+                      child: IconButton.filled(
+                        style: IconButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                          foregroundColor: Colors.black87,
+                        ),
+                        icon: const Icon(Icons.arrow_forward_ios),
+                        onPressed: nextPhoto,
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+        ],
+
+      ],
     );
   }
 }
