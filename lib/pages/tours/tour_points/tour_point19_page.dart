@@ -366,7 +366,7 @@ class _TourPoint19PageState extends State<TourPoint19Page> {
         if (showMaterials) ...[
 
           Container(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withValues(alpha: 0.5),
           ),
 
           Center(

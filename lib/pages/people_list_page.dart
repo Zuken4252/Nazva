@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'tours/ulemiste_city_tour.dart';
 
 class TallinnToursPage extends StatelessWidget {
   const TallinnToursPage({super.key});

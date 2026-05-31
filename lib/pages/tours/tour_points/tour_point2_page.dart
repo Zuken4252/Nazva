@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 import 'tour_point3_page.dart';
-import 'tour_map_page.dart';
 
 class TourPoint2Page extends StatefulWidget {
   const TourPoint2Page({super.key});
@@ -323,7 +322,7 @@ class _TourPoint2PageState extends State<TourPoint2Page> {
         if (showMaterials) ...[
 
           Container(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withValues(alpha: 0.5),
           ),
 
           Center(
